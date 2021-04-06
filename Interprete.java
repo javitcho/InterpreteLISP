@@ -6,7 +6,7 @@ public class Interprete {
     
     private final static String[] LISP_PRIMITIVES =
     {
-        "CAR","CDR","CONS","ATOM","EQ","NULL","INT","PLUS","MINUS","TIMES","QUOTIENT","REMAINDER","LESS","GREATER","DEFUN","=","<",">","+","-","*","/","%","MOD"
+        "CAR","CDR","CONS","ATOM","EQ","EQUAL","NULL","INT","PLUS","MINUS","TIMES","QUOTIENT","REMAINDER","LESS","GREATER","DEFUN", "SETQ","=","<",">","+","-","*","/","%","MOD"
     };
     
     /**
@@ -78,7 +78,18 @@ public class Interprete {
             }
 
             String f = s.CAR().GetValue();
-
+            
+            if (s.CAR().GetValue().equalsIgnoreCase("SETQ"))
+            {
+                if (!topLevel)
+                {
+                    throw new Exception("ERROR IN EVAL: No Nested Setqs allowed");
+                }
+                CheckParamCount("SETQ", s.CDR(), 2);
+                aList.AddBindingPairs(aList, s.CDR().CAR(), s.CDR().CDR());
+                return s.CDR();
+            }
+            
             //También revisamos el caso particular de los primitivos
             //Por ahora solo se verifica pero luego se aplicará 
             boolean isLISP_builtin = false;
@@ -205,7 +216,7 @@ public class Interprete {
             return Lambdi.CONS(x.CAR(), x.CDR().CAR());
         }
 
-        if (fName.equalsIgnoreCase("EQ") | fName.equalsIgnoreCase("="))
+        if (fName.equalsIgnoreCase("EQ") | fName.equalsIgnoreCase("=")| fName.equalsIgnoreCase("EQUAL"))
         {
             CheckParamCount("EQ", x, 2);
             return Lambdi.EQ(x.CAR(), x.CDR().CAR());
@@ -296,7 +307,7 @@ public class Interprete {
         CheckParamCount(fName, x, pars.Length());
 
         //Evaluar la función
-        return EVAL(body, ListaAsociacion.AddBindingPairs(aList, pars, x), dList, false);
+        return EVAL(body, aList.AddBindingPairs(aList, pars, x), dList, false);
 
     }
 

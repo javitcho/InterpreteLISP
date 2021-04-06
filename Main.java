@@ -6,6 +6,7 @@ import java.io.*;
  */
 public class Main
 {
+    //Estos son para que se mire bien la salida
     private final static String PROMPT_CHARS = ">>> ";
     private final static String ERROR_CHARS="**ERROR** ";
     public static void main(String args[])
@@ -17,7 +18,7 @@ public class Main
         ListaAsociacion aList = new ListaAsociacion();
         Interprete jamie = new Interprete();
         boolean more = true;
-        while (more)  //while there is more input to read
+        while (more)  //Sigue leyendo mientras haya algo que leer
         {
             try
             {
@@ -26,19 +27,18 @@ public class Main
                 SExp input = Lambdi.INPUT(standIn);
                 if (input == null)
                 {
-                    more = false; //no more to read
+                    more = false; //Cuando se acaba el input ya no hay nada que leer
                 } else
                 {
                     SExp output = jamie.EVAL(input, aList, dList, true);
 
-                    //all output is in list notation
+                    //La salida se da en notación dot (car.cdr)
                     System.out.println(output.ToStringDotNotation());
                 }
 
             } catch (Exception e)
             {
-                //all errors are in the form of exceptions that
-                //are synthesized up to this level to be printed
+                //Los errores suben hasta aquí y aquí se imprime el mensaje.
                 System.out.println(ERROR_CHARS + e.getMessage());
             }
         }

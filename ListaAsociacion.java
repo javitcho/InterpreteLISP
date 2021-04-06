@@ -44,7 +44,7 @@ public class ListaAsociacion
      * @param values Los valores que se le darán a los parámetros
      * @return Una nueva lista de asociación
      */
-	public static ListaAsociacion AddBindingPairs(ListaAsociacion aList, SExp pars, SExp values)
+	public ListaAsociacion AddBindingPairs(ListaAsociacion aList, SExp pars, SExp values)
 	{
 		ListaAsociacion newList = new ListaAsociacion(aList.al);
 
@@ -56,6 +56,7 @@ public class ListaAsociacion
 			pars_t = pars_t.CDR();
 			values_t = values_t.CDR();
 		}
+                this.al = newList.al;
 		return newList;
 	}
 }

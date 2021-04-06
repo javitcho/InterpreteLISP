@@ -4,7 +4,7 @@
 
 public class SExp
 {
-    // En notación dot, car es la sección antes del punto y cdr la sección despues del punto
+    // En notación dot, car es la sección antes del punto y cdr la sección despues del punto (address y decrement)
     private SExp car;
     private SExp cdr;
     
@@ -125,8 +125,8 @@ public class SExp
     }
 
     /**
-     * Set the cdr
-     * @param cdr  The value of the cdr
+     * Set cdr
+     * @param cdr  El cdr
      */
     public void SetCDR(SExp cdr)
     {
@@ -134,17 +134,20 @@ public class SExp
     }
 
     /**
-     * Get the CDR
-     * @return The CDR
+     * Devuelve el cdr
+     * @return El cdr
      */
     public SExp CDR()
     {
+        if(isAtomic){
+            return this;
+        }
         return cdr;
     }
 
     /**
-     * Set the car
-     * @param car The value for the car
+     * Modifica el car de una expresión S
+     * @param car El nuevo valor del car
      */
     public void SetCAR(SExp car)
     {
@@ -152,17 +155,20 @@ public class SExp
     }
 
     /**
-     * Get the car
-     * @return The car
+     * Devuelve el car de la expresión S
+     * @return el car
      */
     public SExp CAR()
     {
+        if(isAtomic){
+            return this;
+        }
         return car;
     }
 
     /**
-     * Get the value of an atomic s expression
-     * @return The value
+     * Devuelve el valor de la expresión S
+     * @return El valor de la expresión
      */
     public String GetValue()
     {
@@ -170,8 +176,8 @@ public class SExp
     }
 
     /**
-     * Set the value of an atomic S expression
-     * @param value The new value
+     * Modificar el valor de una expresión S
+     * @param value El nuevo valor de la expresión
      */
     public void SetValue(String value)
     {
@@ -179,9 +185,8 @@ public class SExp
     }
 
     /**
-     * Get the length of an S-Expression, primarily used for parameter list
-     * checks
-     * @return The length of the s expression
+     * Longitud de una expresión S
+     * @return La longitud de la expresión S
      */
     public int Length()
     {
@@ -199,8 +204,8 @@ public class SExp
     }
     
     /**
-     * Is the S expression atomic
-     * @return true=atomic
+     * Si la expresión es atómica
+     * @return true cuando es atómica
      */
     public boolean IsAtomic()
     {
@@ -208,7 +213,7 @@ public class SExp
     }
 
     /**
-     * Is the atom an integer
+     * Si el átomo es un entero
      * @return
      */
     public boolean IsInteger()
@@ -228,7 +233,7 @@ public class SExp
     }
 
     /**
-     * Is the atom null
+     * Si el átomo está vacío
      * @return
      */
     public boolean IsNull()
