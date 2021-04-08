@@ -54,7 +54,7 @@ public class Interprete {
 
             }
 
-            if (s.CAR().GetValue().equalsIgnoreCase("QUOTE")) {
+            if (s.CAR().GetValue().equalsIgnoreCase("QUOTE")| s.CAR().GetValue().equalsIgnoreCase("'")) {
                 CheckParamCount("QUOTE", s.CDR(), 1);
                 return s.CDR().CAR();
 
