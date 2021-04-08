@@ -1,0 +1,10 @@
+(defun factorial (N)
+(cond
+((eql N 0) 1)
+(T (* N (factorial ( - N 1))))
+))
+
+( defun fibonacci ( N )
+( cond 
+( (= n 1) 1)
+(t ( + ( fibonacci ( - n 1 ) ) ( fibonacci ( - n 2 ))) ) ) )
