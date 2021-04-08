@@ -1,13 +1,16 @@
+
 /**
  * LISP S-Expression (para el cálculo lambda)
+ *
+ * @author Javier Mejia, José López, Lorena Beltrán
  */
 
-public class SExp
-{
+public class SExp {
+
     // En notación dot, car es la sección antes del punto y cdr la sección despues del punto (address y decrement)
     private SExp car;
     private SExp cdr;
-    
+
     //Toda Sexpresión tiene un valor (la expresión)
     private String value;
     //Las Sexpresiones pueden o no ser atómicas
@@ -19,67 +22,57 @@ public class SExp
     //Esta variable estática facilita la tokenización (es una temporal que se accede de otras funciones)
     private static String pushedToken = null;
 
-    
     /**
-     * Constructor vacío para funciones particulares (en ocasiones hay que construir la expresión en otro lado)
+     * Constructor vacío para funciones particulares (en ocasiones hay que
+     * construir la expresión en otro lado)
      */
-    SExp(){}
+    SExp() {
+    }
 
     /**
      * Constructor para expresiones ATÓMICAS
+     *
      * @param valor
      */
-    SExp(String valor)
-    {
+    SExp(String valor) {
         value = valor;
         isAtomic = true;
         car = null;
         cdr = null;
     }
 
-
     /**
      * Devuelve la S-expresión en notación con puntos
+     *
      * @return dot notation
      */
-    public String ToStringDotNotation()
-    {
-        if (isAtomic)
-        {
+    public String ToStringDotNotation() {
+        if (isAtomic) {
             return this.value;
-        }
-        else
-        {
-            return "("+car.ToStringDotNotation()+" . "+cdr.ToStringDotNotation()+")";
+        } else {
+            return "(" + car.ToStringDotNotation() + " . " + cdr.ToStringDotNotation() + ")";
         }
     }
 
-
-
     /**
-     * Devuelve la expresión S en notación de lista
-     * This function is a little off
+     * Devuelve la expresión S en notación de lista This function is a little
+     * off
+     *
      * @return
      */
-    public String ToStringListNotation()
-    {
+    public String ToStringListNotation() {
         String str;
 
-        if (isAtomic)
-        {
+        if (isAtomic) {
             str = value;
-        } else
-        {
+        } else {
             str = "(";
             str += car.ToStringListNotation();
-            if (!cdr.IsNull())
-            {
-                if (!cdr.IsAtomic())
-                {
+            if (!cdr.IsNull()) {
+                if (!cdr.IsAtomic()) {
                     String cdrStr = cdr.ToStringListNotation();
                     str += " " + cdrStr.substring(1, cdrStr.length() - 1);
-                } else
-                {
+                } else {
                     str += " . ";
                     str += cdr.ToStringListNotation();
                 }
@@ -90,56 +83,55 @@ public class SExp
     }
 
     /**
-     * OUTPUT por default es en notación dot (esta función es un overloading del OUTPUT
+     * OUTPUT por default es en notación dot (esta función es un overloading del
+     * OUTPUT
+     *
      * @return La expresión en forma de string en notación dot como un output
      */
-    public String OUTPUT()
-    {
+    public String OUTPUT() {
         return this.OUTPUT(true);
     }
 
     /**
-     * OUTPUT 
+     * OUTPUT
+     *
      * @param dot Si se utiliza notación dot o no
-     * @return La expresión en forma de string (puede ser como dot o como lista) como un output
+     * @return La expresión en forma de string (puede ser como dot o como lista)
+     * como un output
      */
-    public String OUTPUT(boolean dot)
-    {
-        if(dot)
-        {
+    public String OUTPUT(boolean dot) {
+        if (dot) {
             return this.ToStringDotNotation();
-        }
-        else
-        {
+        } else {
             return this.ToStringListNotation();
         }
     }
 
     /**
      * Hacer la expresión atómica
+     *
      * @param isAtom
      */
-    public void SetAtom(boolean isAtom)
-    {
+    public void SetAtom(boolean isAtom) {
         this.isAtomic = isAtom;
     }
 
     /**
      * Set cdr
-     * @param cdr  El cdr
+     *
+     * @param cdr El cdr
      */
-    public void SetCDR(SExp cdr)
-    {
+    public void SetCDR(SExp cdr) {
         this.cdr = cdr;
     }
 
     /**
      * Devuelve el cdr
+     *
      * @return El cdr
      */
-    public SExp CDR()
-    {
-        if(isAtomic){
+    public SExp CDR() {
+        if (isAtomic) {
             return this;
         }
         return cdr;
@@ -147,20 +139,20 @@ public class SExp
 
     /**
      * Modifica el car de una expresión S
+     *
      * @param car El nuevo valor del car
      */
-    public void SetCAR(SExp car)
-    {
+    public void SetCAR(SExp car) {
         this.car = car;
     }
 
     /**
      * Devuelve el car de la expresión S
+     *
      * @return el car
      */
-    public SExp CAR()
-    {
-        if(isAtomic){
+    public SExp CAR() {
+        if (isAtomic) {
             return this;
         }
         return car;
@@ -168,65 +160,62 @@ public class SExp
 
     /**
      * Devuelve el valor de la expresión S
+     *
      * @return El valor de la expresión
      */
-    public String GetValue()
-    {
+    public String GetValue() {
         return value;
     }
 
     /**
      * Modificar el valor de una expresión S
+     *
      * @param value El nuevo valor de la expresión
      */
-    public void SetValue(String value)
-    {
+    public void SetValue(String value) {
         this.value = value;
     }
 
     /**
      * Longitud de una expresión S
+     *
      * @return La longitud de la expresión S
      */
-    public int Length()
-    {
-        if (IsNull())
-        {
+    public int Length() {
+        if (IsNull()) {
             return 0;
         }
 
-        if (IsAtomic())
-        {
+        if (IsAtomic()) {
             return 1;
         }
 
         return 1 + cdr.Length();
     }
-    
+
     /**
      * Si la expresión es atómica
+     *
      * @return true cuando es atómica
      */
-    public boolean IsAtomic()
-    {
+    public boolean IsAtomic() {
         return isAtomic;
     }
 
     /**
      * Si el átomo es un entero
+     *
      * @return
      */
-    public boolean IsInteger()
-    {
-        if (!isAtomic)  //if not an atom cant be integer
+    public boolean IsInteger() {
+        if (!isAtomic) //if not an atom cant be integer
         {
             return false;
         }
-        try
-        {
+        try {
             Integer.parseInt(value);
             return true;
-        } catch (NumberFormatException e)  //if no exception then is int
+        } catch (NumberFormatException e) //if no exception then is int
         {
             return false;
         }
@@ -234,16 +223,15 @@ public class SExp
 
     /**
      * Si el átomo está vacío
+     *
      * @return
      */
-    public boolean IsNull()
-    {
-        if (car == null && cdr == null && value.equalsIgnoreCase("NIL"))  //NIL is null too
+    public boolean IsNull() {
+        if (car == null && cdr == null && value.equalsIgnoreCase("NIL")) //NIL is null too
         {
             return true;
         }
         return false;
     }
-    
-}
 
+}
