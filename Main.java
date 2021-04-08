@@ -27,7 +27,7 @@ public class Main {
 
                 SExp input = Lambdi.INPUT(standIn);
                 //Imprimir la notación para reconocer los elementos de la expresión S es útil para rastrear el funcionamiento del programa
-                System.out.println(input.ToStringDotNotation());
+                //System.out.println(input.ToStringDotNotation());
                 if (input == null) {
                     more = false; //Cuando se acaba el input ya no hay nada que leer
                 } else {
